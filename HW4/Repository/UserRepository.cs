@@ -57,9 +57,19 @@ namespace HW4.Repository
             return csvAccess.GetAllUsers();
         }
 
-        public bool Update(User oldUser, User newUser)
+        public bool Update(string Mobile, User newUser)
         {
-            throw new NotImplementedException();
+            var users = csvAccess.GetAllUsers();
+            var existUser = users.FirstOrDefault(u => u.Mobile == Mobile);
+            if (existUser != null)
+            {
+                existUser.Mobile = newUser.Mobile;
+                existUser.Name = newUser.Name;
+                existUser.BirthDay = newUser.BirthDay;
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
