@@ -12,8 +12,8 @@ namespace HW4.Model
         public int ID { get; set; }
         public string Name { get; set; }
 
-        private string _mobile;
-        public string Mobile
+        private long _mobile;
+        public long Mobile
         {
             get
             {
@@ -22,7 +22,7 @@ namespace HW4.Model
 
             set
             {
-                if (value.Length == 11)
+                if (value.ToString().Length == 11)
                 {
                     _mobile = value;
                 }

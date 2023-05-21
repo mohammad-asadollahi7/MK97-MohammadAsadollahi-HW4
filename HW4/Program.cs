@@ -21,19 +21,19 @@ class Program
             try
             {
                 Console.Write("Please enter the number of option:\n" +
-                                 "1.Adding a new user\n2.Viewing the users list\n3.Exist\n");
+                                 "1.Adding a new user\n" +
+                                 "2.Viewing the users list\n3.Exist\n");
                 menuOption1 = Console.ReadLine();
 
                 switch (menuOption1)
                 {
                     case "1":
 
-
                         Console.Write("Enter the name: ");
                         user.Name = Console.ReadLine();
 
                         Console.Write("Enter the mobile phone: ");
-                        user.Mobile = Console.ReadLine();
+                        user.Mobile = long.Parse(Console.ReadLine());
 
                         Console.Write("Enter the birthday(yyyy-MM-dd): ");
                         user.BirthDay = Convert.ToDateTime(Console.ReadLine());
@@ -41,21 +41,20 @@ class Program
                         var isValid = userRepository.Create(user);
 
                         if (isValid)
+                        {
                             Console.WriteLine("The new user was added successfully.");
+                            Console.WriteLine("Do you want to back menu(y/n): ");
+                            string temp = Console.ReadLine();
+                            Console.Clear();
+                            if (temp == "y")
+                                continueLoop = true;
+                        }
                         else
                         {
                             Console.WriteLine("The input mobile phone is already registered.");
                             continueLoop = true;
                         }
                         break;
-
-
-
-                    //catch (InvaildBirthDay ex)
-                    //{
-                    //    Console.WriteLine(ex.Message);
-                    //}
-
 
                     case "2":
 
@@ -80,12 +79,20 @@ class Program
                                     Console.Write("Enter the updated name: ");
                                     updateUser.Name = Console.ReadLine();
                                     Console.Write("Enter updated mobile phone: ");
-                                    updateUser.Mobile = Console.ReadLine();
+                                    updateUser.Mobile = long.Parse(Console.ReadLine());
                                     Console.Write("Enter updated birthday(yyyy-MM-dd): ");
                                     updateUser.BirthDay = Convert.ToDateTime(Console.ReadLine());
                                     var wasIsUpdated = userRepository.Update(targetID, updateUser);
                                     if (wasIsUpdated)
+                                    {
                                         Console.WriteLine("The update was done successfully.");
+                                        Console.WriteLine("Do you want to back menu(y/n): ");
+                                        string temp = Console.ReadLine();
+                                        Console.Clear();
+                                        if (temp == "y")
+                                            continueLoop = true;
+                                    }
+
                                     else
                                     {
                                         Console.Clear();
@@ -97,7 +104,15 @@ class Program
                                 case "2":
                                     var wasItDeleted = userRepository.Delete(targetID);
                                     if (wasItDeleted)
+                                    {
                                         Console.WriteLine("The delete was done successfully.");
+                                        Console.WriteLine("Do you want to back menu(y/n): ");
+                                        string temp = Console.ReadLine();
+                                        Console.Clear();
+                                        if (temp == "y")
+                                            continueLoop = true;
+                                    }
+
                                     else
                                     {
                                         Console.Clear();
@@ -107,6 +122,7 @@ class Program
                                     break;
 
                                 default:
+                                    Console.Clear();
                                     Console.WriteLine("The input is not valid.");
                                     continueLoop2 = true;
                                     break;
@@ -121,6 +137,7 @@ class Program
                         break;
 
                     default:
+                        Console.Clear();
                         Console.WriteLine("The input is not valid.");
                         continueLoop = true;
                         break;
@@ -139,7 +156,12 @@ class Program
                 Console.WriteLine(ex.Message);
                 continueLoop = true;
             }
-
+            catch (FormatException ex)
+            {
+                Console.Clear();
+                Console.WriteLine(ex.Message);
+                continueLoop = true;
+            }
         } while (continueLoop);
        
     }
