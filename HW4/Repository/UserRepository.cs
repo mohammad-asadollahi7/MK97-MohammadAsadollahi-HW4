@@ -1,4 +1,5 @@
 ﻿using HW4.Abstract;
+using HW4.DataAccess;
 using HW4.Model;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,22 @@ namespace HW4.Repository
 {
     public class UserRepository : IUserRepository
     {
+        CSVAccess csvAccess = new CSVAccess();
+
         public bool Create(User user)
         {
-            throw new NotImplementedException();
+            var users = csvAccess.GetAllUsers();
+            var sameUser = users.FirstOrDefault(u => u.Mobile == user.Mobile);
+
+            if (sameUser == null)
+            {
+                user.ID = users.Count() + 1;
+                users.Add(user);
+                csvAccess.SetAllUsers(users);
+                return true;
+            }
+            else
+                return false;
         }
 
         public bool Delete(User user)
