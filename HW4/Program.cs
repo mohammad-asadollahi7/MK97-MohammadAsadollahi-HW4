@@ -16,11 +16,10 @@ class Program
         User updateUser = new User();
         List<User> users;
 
-        try
+        do
         {
-            do
+            try
             {
-                Console.Clear();
                 Console.Write("Please enter the number of option:\n" +
                                  "1.Adding a new user\n2.Viewing the users list\n3.Exist\n");
                 menuOption1 = Console.ReadLine();
@@ -126,12 +125,22 @@ class Program
                         continueLoop = true;
                         break;
                 }
+            }
 
-            } while (continueLoop);
-        }
-        catch (InvaildBirthDay ex)
-        {
-            Console.Write(ex.Message);
-        }
+            catch (InvaildBirthDay ex)
+            {
+                Console.Clear();
+                Console.Write(ex.Message);
+                continueLoop = true;
+            }
+            catch (InvalidPhoneFormat ex)
+            {
+                Console.Clear();
+                Console.WriteLine(ex.Message);
+                continueLoop = true;
+            }
+
+        } while (continueLoop);
+       
     }
 }

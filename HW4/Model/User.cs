@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.User_Defined_Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,27 @@ namespace HW4.Model
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public string Mobile { get; set; }
+        private string _mobile;
+        public string Mobile
+        {
+            get
+            {
+                return _mobile;
+            }
+
+            set
+            {
+                if (value.Length == 11)
+                {
+                    _mobile = value;
+                }
+                else
+                {
+                    throw new InvalidPhoneFormat("Phone is not valid.");
+                }
+            }
+        }
+
 
         private DateTime _birthday;
         public DateTime BirthDay
