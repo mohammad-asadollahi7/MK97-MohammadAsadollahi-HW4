@@ -30,10 +30,10 @@ namespace HW4.Repository
                 return false;
         }
 
-        public bool Delete(string Mobile)
+        public bool Delete(int ID)
         {
             var users = csvAccess.GetAllUsers();
-            var existUser = users.FirstOrDefault(u => u.Mobile == Mobile);
+            var existUser = users.FirstOrDefault(u => u.Mobile == ID);
 
             if (existUser != null)
             {
@@ -57,15 +57,15 @@ namespace HW4.Repository
             return csvAccess.GetAllUsers();
         }
 
-        public bool Update(string Mobile, User newUser)
+        public bool Update(int ID, User updateUser)
         {
             var users = csvAccess.GetAllUsers();
-            var existUser = users.FirstOrDefault(u => u.Mobile == Mobile);
+            var existUser = users.FirstOrDefault(u => u.ID == ID);
             if (existUser != null)
             {
-                existUser.Mobile = newUser.Mobile;
-                existUser.Name = newUser.Name;
-                existUser.BirthDay = newUser.BirthDay;
+                existUser.Mobile = updateUser.Mobile;
+                existUser.Name = updateUser.Name;
+                existUser.BirthDay = updateUser.BirthDay;
                 return true;
             }
             else
