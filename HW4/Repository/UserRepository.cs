@@ -33,7 +33,7 @@ namespace HW4.Repository
         public bool Delete(int ID)
         {
             var users = csvAccess.GetAllUsers();
-            var existUser = users.FirstOrDefault(u => u.Mobile == ID);
+            var existUser = users.FirstOrDefault(u => u.ID == ID);
 
             if (existUser != null)
             {
@@ -66,6 +66,7 @@ namespace HW4.Repository
                 existUser.Mobile = updateUser.Mobile;
                 existUser.Name = updateUser.Name;
                 existUser.BirthDay = updateUser.BirthDay;
+                csvAccess.SetAllUsers(users);
                 return true;
             }
             else

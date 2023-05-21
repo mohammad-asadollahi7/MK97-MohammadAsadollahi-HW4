@@ -11,11 +11,11 @@ namespace HW4.Abstract
     {
         bool Create(User user);
 
-        bool Delete(string Mobile);
+        bool Delete(int ID);
 
         List<User> GetAllUsers();
 
-        bool Update(User oldUser, User newUser);
+        bool Update(int ID, User newUser);
 
     }
 }

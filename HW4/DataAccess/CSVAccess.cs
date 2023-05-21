@@ -49,6 +49,7 @@ namespace HW4.DataAccess
         public void SetAllUsers(List<User> users)
         {
             string? FilePath = GetFilePath();
+            System.IO.File.WriteAllText(FilePath, string.Empty);
 
             var Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
