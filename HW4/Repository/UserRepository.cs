@@ -4,6 +4,7 @@ using HW4.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,9 +30,26 @@ namespace HW4.Repository
                 return false;
         }
 
-        public bool Delete(User user)
+        public bool Delete(string Mobile)
         {
-            throw new NotImplementedException();
+            var users = csvAccess.GetAllUsers();
+            var existUser = users.FirstOrDefault(u => u.Mobile == Mobile);
+
+            if (existUser != null)
+            {
+                var index = users.FindIndex(u => u == existUser);
+                users.Remove(existUser);
+
+                for (int i = index; i < users.Count; i++)
+                {
+                    users[i].ID -= 1;
+                }
+
+                csvAccess.SetAllUsers(users);
+                return true;
+            }
+            else
+                return false;
         }
 
         public List<User> GetAllUsers()
