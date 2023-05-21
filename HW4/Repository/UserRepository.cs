@@ -54,7 +54,7 @@ namespace HW4.Repository
 
         public List<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return csvAccess.GetAllUsers();
         }
 
         public bool Update(User oldUser, User newUser)
