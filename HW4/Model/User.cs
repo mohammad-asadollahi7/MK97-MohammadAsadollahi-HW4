@@ -10,7 +10,7 @@ namespace HW4.Model
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public long Mobile { get; set; }
+        public string Mobile { get; set; }
         public DateTime BirthDay { get; set; }
 
     }

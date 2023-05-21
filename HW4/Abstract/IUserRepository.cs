@@ -11,7 +11,7 @@ namespace HW4.Abstract
     {
         bool Create(User user);
 
-        bool Delete(User user);
+        bool Delete(string Mobile);
 
         List<User> GetAllUsers();
 
