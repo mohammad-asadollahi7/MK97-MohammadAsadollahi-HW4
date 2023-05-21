@@ -46,13 +46,8 @@ namespace HW4.DataAccess
             }
         }
 
-        public void SetUser(User user)
+        public void SetAllUsers(List<User> users)
         {
-            var users = GetAllUsers();
-            user.ID = users.Count() + 1;
-            users.Add(user); 
-
-
             string? FilePath = GetFilePath();
 
             var Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
