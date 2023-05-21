@@ -12,17 +12,19 @@ namespace HW4.DataAccess
 {
     public class CSVAccess
     {
-        string? baseDirectoryPath = string.Empty;
-        string? dataFolderPath = string.Empty;
-        string? csvFilePath = string.Empty;
+        public string GetFilePath()
+        {
+            string? baseDirectoryPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?
+                         .Parent?.Parent?.Parent?.FullName;
+            string? dataFolderPath = Path.Combine(baseDirectoryPath, "Data");
+            string? csvFilePath = Path.Combine(dataFolderPath, "Users.csv");
+            return csvFilePath;
+        }
 
         public List<User> GetAllUsers()
         {
-            baseDirectoryPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?
-                         .Parent?.Parent?.Parent?.FullName;
-            dataFolderPath = Path.Combine(baseDirectoryPath, "Data");
-            csvFilePath = Path.Combine(dataFolderPath, "Users.csv");
 
+            string? FilePath = GetFilePath();
 
             var Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -30,7 +32,7 @@ namespace HW4.DataAccess
                 Delimiter = ","
             };
 
-            using (FileStream fs = new FileStream(csvFilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(FilePath, FileMode.Open))
             {
                 using (TextReader reader = new StreamReader(fs, Encoding.UTF8))
                 {
@@ -42,6 +44,33 @@ namespace HW4.DataAccess
                     }
                 }
             }
+        }
+
+        public void SetUser(User user)
+        {
+            var users = GetAllUsers();
+            user.ID = users.Count() + 1;
+            users.Add(user); 
+
+
+            string? FilePath = GetFilePath();
+
+            var Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Encoding = Encoding.UTF8,
+                Delimiter = ","
+            };
+            using (FileStream fs = new FileStream(FilePath, FileMode.Open))
+            {
+                using (TextWriter writer = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    using (var csv = new CsvWriter(writer, Configuration))
+                    {
+                        csv.WriteRecords(users);
+                    }
+                }
+            }
+
         }
     }
 }
