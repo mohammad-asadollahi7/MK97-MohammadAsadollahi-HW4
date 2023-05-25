@@ -12,19 +12,19 @@ namespace HW4.DataAccess
 {
     public class CSVAccess
     {
-        public string GetFilePath()
+        private string csvFilePath;
+        public CSVAccess()
         {
-            string? baseDirectoryPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)?
+            string? baseDirectoryPath = Directory.GetParent
+                         (AppDomain.CurrentDomain.BaseDirectory)?
                          .Parent?.Parent?.Parent?.FullName;
             string? dataFolderPath = Path.Combine(baseDirectoryPath, "Data");
-            string? csvFilePath = Path.Combine(dataFolderPath, "Users.csv");
-            return csvFilePath;
+           csvFilePath = Path.Combine(dataFolderPath, "Users.csv");
         }
+        
 
         public List<User> GetAllUsers()
         {
-
-            string? FilePath = GetFilePath();
 
             var Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -32,7 +32,7 @@ namespace HW4.DataAccess
                 Delimiter = ","
             };
 
-            using (FileStream fs = new FileStream(FilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(csvFilePath, FileMode.Open))
             {
                 using (TextReader reader = new StreamReader(fs, Encoding.UTF8))
                 {
@@ -48,15 +48,15 @@ namespace HW4.DataAccess
 
         public void SetAllUsers(List<User> users)
         {
-            string? FilePath = GetFilePath();
-            System.IO.File.WriteAllText(FilePath, string.Empty);
+
+            System.IO.File.WriteAllText(csvFilePath, string.Empty);
 
             var Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 Encoding = Encoding.UTF8,
                 Delimiter = ","
             };
-            using (FileStream fs = new FileStream(FilePath, FileMode.Open))
+            using (FileStream fs = new FileStream(csvFilePath, FileMode.Open))
             {
                 using (TextWriter writer = new StreamWriter(fs, Encoding.UTF8))
                 {

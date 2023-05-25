@@ -12,18 +12,23 @@ namespace HW4.Repository
 {
     public class UserRepository : IUserRepository
     {
-        CSVAccess csvAccess = new CSVAccess();
+        private CSVAccess _csvAccess;
+        private List<User> _users;
+        public UserRepository(CSVAccess csvAccess)
+        {
+            _csvAccess = csvAccess;
+            _users = _csvAccess.GetAllUsers();
+        }
 
         public bool Create(User user)
         {
-            var users = csvAccess.GetAllUsers();
-            var sameUser = users.FirstOrDefault(u => u.Mobile == user.Mobile);
+            var sameUser = _users.FirstOrDefault(u => u.Mobile == user.Mobile);
 
             if (sameUser == null)
             {
-                user.ID = users.Count() + 1;
-                users.Add(user);
-                csvAccess.SetAllUsers(users);
+                user.ID = _users.Count() + 1;
+                _users.Add(user);
+                _csvAccess.SetAllUsers(_users);
                 return true;
             }
             else
@@ -32,20 +37,19 @@ namespace HW4.Repository
 
         public bool Delete(int ID)
         {
-            var users = csvAccess.GetAllUsers();
-            var existUser = users.FirstOrDefault(u => u.ID == ID);
+            var existUser = _users.FirstOrDefault(u => u.ID == ID);
 
             if (existUser != null)
             {
-                var index = users.FindIndex(u => u == existUser);
-                users.Remove(existUser);
+                var index = _users.FindIndex(u => u == existUser);
+                _users.Remove(existUser);
 
-                for (int i = index; i < users.Count; i++)
+                for (int i = index; i < _users.Count; i++)
                 {
-                    users[i].ID -= 1;
+                    _users[i].ID -= 1;
                 }
 
-                csvAccess.SetAllUsers(users);
+                _csvAccess.SetAllUsers(_users);
                 return true;
             }
             else
@@ -54,19 +58,18 @@ namespace HW4.Repository
 
         public List<User> GetAllUsers()
         {
-            return csvAccess.GetAllUsers();
+            return _users;
         }
 
         public bool Update(int ID, User updateUser)
         {
-            var users = csvAccess.GetAllUsers();
-            var existUser = users.FirstOrDefault(u => u.ID == ID);
+            var existUser = _users.FirstOrDefault(u => u.ID == ID);
             if (existUser != null)
             {
                 existUser.Mobile = updateUser.Mobile;
                 existUser.Name = updateUser.Name;
                 existUser.BirthDay = updateUser.BirthDay;
-                csvAccess.SetAllUsers(users);
+                _csvAccess.SetAllUsers(_users);
                 return true;
             }
             else
